@@ -81,12 +81,15 @@ extension ViewController : UICollectionViewDataSource, UICollectionViewDelegateF
                             bottom: collectionViewMargin,
                             right: collectionViewMargin)
     }
-    
 }
+
 // Sepete ekle
 extension ViewController : ProductCellProtocol {
     func onClick(product: Product) {
-        print("Product name : \(product.productTitle!) | prodduct price : \(product.productPrice!)")
+        //print("Product name : \(product.productTitle!) | prodduct price : \(product.productPrice!)")
+        let vc = BottomSheetVC()
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: false)
     }
 }
 
