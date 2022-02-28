@@ -27,6 +27,7 @@ class BottomSheetVC: UIViewController {
     }()
     
     var curtainAlpha:CGFloat = 0.6
+    var animDurarion:CGFloat = 0.4
     var defaultHeight:CGFloat = 300
     
     // Constraints
@@ -41,6 +42,11 @@ class BottomSheetVC: UIViewController {
 
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        animateShowCurtain()
+        animatePresentContainer()
+    }
+    
     func calculateConstraints(){
         // Ekran boyutunun %40 lık uzunkuğunu default olarak ayarladım.
         self.defaultHeight = view.frame.height * (2/5)
@@ -48,9 +54,13 @@ class BottomSheetVC: UIViewController {
     
     func setupUI(){
         view.backgroundColor = .clear
+        
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.curtainOnClick))
+        curtain.addGestureRecognizer(tapRecognizer)
     }
     
     func setupConstraints(){
+        
         view.addSubview(curtain)
         view.addSubview(container)
         curtain.translatesAutoresizingMaskIntoConstraints = false
@@ -74,7 +84,47 @@ class BottomSheetVC: UIViewController {
         containerViewHeightConstraint?.isActive = true
         containerViewBottomConstraint?.isActive = true
         
-        print(self.view.subviews.count)
     }
     
+    @objc
+    func curtainOnClick(){
+        animateDismissView()
+    }
+    
+    
+    // anims
+    
+    // Curtain is visible
+    func animateShowCurtain() {
+        curtain.alpha = 0
+        UIView.animate(withDuration: curtainAlpha) {
+            self.curtain.alpha = self.curtainAlpha
+        }
+    }
+    
+    // container is visible
+    func animatePresentContainer() {
+        UIView.animate(withDuration: animDurarion) {
+            self.containerViewBottomConstraint?.constant = 0
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    // Hide Container and Curtain views
+    func animateDismissView() {
+        // hide main container view by updating bottom constraint in animation block
+        UIView.animate(withDuration: 0.3) {
+            self.containerViewBottomConstraint?.constant = self.defaultHeight
+            // call this to trigger refresh constraint
+            self.view.layoutIfNeeded()
+        }
+        
+        // hide blur view
+        curtain.alpha = curtainAlpha
+        UIView.animate(withDuration: 0.4) {
+            self.curtain.alpha = 0
+        } completion: { _ in
+            self.dismiss(animated: false) // close
+        }
+    }
 }
