@@ -7,14 +7,25 @@
 
 import UIKit
 
-class BottomSheetVC: UIViewController {
+class BottomSheetVC<T>: UIViewController {
+    
+    init(data:T){
+        self.data = data
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     // last layer (BottomSheet)
     lazy var container : UIView = {
         let view = UIView()
         view.backgroundColor = .white
         view.clipsToBounds = true
-        view.layer.cornerRadius = 10
+        view.layer.cornerRadius = 20
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -33,18 +44,21 @@ class BottomSheetVC: UIViewController {
     var maxHeight:CGFloat!
     var minHeight:CGFloat!
     var currentHeight:CGFloat!
+        
     
     // Constraints
     var containerViewHeightConstraint:NSLayoutConstraint?
     var containerViewBottomConstraint:NSLayoutConstraint?
 
+    
+    var data:T?
     override func viewDidLoad() {
         super.viewDidLoad()
         calculateConstraints()
         setupUI()
         setupConstraints()
         setupGestures()
-
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -62,6 +76,7 @@ class BottomSheetVC: UIViewController {
     
     func setupUI(){
         view.backgroundColor = .clear
+        
     }
     
     func setupGestures(){
@@ -81,6 +96,8 @@ class BottomSheetVC: UIViewController {
         curtain.translatesAutoresizingMaskIntoConstraints = false
         container.translatesAutoresizingMaskIntoConstraints = false
         
+
+        
         NSLayoutConstraint.activate([
             // Set Curtain's Constraints
             curtain.topAnchor.constraint(equalTo: view.topAnchor),
@@ -95,7 +112,6 @@ class BottomSheetVC: UIViewController {
         // Set Constraint default height
         containerViewHeightConstraint =  container.heightAnchor.constraint(equalToConstant: defaultHeight)
         containerViewBottomConstraint =  container.bottomAnchor.constraint(equalTo: curtain.bottomAnchor, constant: 0)
-        
         containerViewHeightConstraint?.isActive = true
         containerViewBottomConstraint?.isActive = true
         
@@ -151,7 +167,6 @@ class BottomSheetVC: UIViewController {
             break
         }
     }
-    
     
     // anims
     

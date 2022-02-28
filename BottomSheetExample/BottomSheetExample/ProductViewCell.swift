@@ -54,6 +54,7 @@ class ProductViewCell: UICollectionViewCell {
     var product:Product!
     var delegate: ProductCellProtocol?
     
+    
     func initialize(product:Product){
         self.product = product
         titleLabel.text = product.productTitle
