@@ -11,10 +11,9 @@ class ViewController: UIViewController {
         
     var productCollectionView:UICollectionView!
     
-    
     var collectionViewMargin:CGFloat = 20
     var itemCountInLine:Int = 2
-    var spaceBetweenItems:CGFloat = 30
+    var spaceBetweenItems:CGFloat = 20
     var spaceBetweenRows:CGFloat = 20
     var cellHeightRatio:CGFloat = 1.80
     
@@ -51,9 +50,18 @@ class ViewController: UIViewController {
         products.append(Product(productImageName: "macbookPro", productTitle: "Macbook Pro", productPrice: 14000))
         products.append(Product(productImageName: "airpods", productTitle: "Airpods", productPrice: 800))
         products.append(Product(productImageName: "airpods-max", productTitle: "Airpods - Max", productPrice: 1000))
+        products.append(Product(productImageName: "iphone11", productTitle: "Iphone 11", productPrice: 7000))
+        products.append(Product(productImageName: "macbookPro", productTitle: "Macbook Pro", productPrice: 14000))
+        products.append(Product(productImageName: "airpods", productTitle: "Airpods", productPrice: 800))
+        products.append(Product(productImageName: "airpods-max", productTitle: "Airpods - Max", productPrice: 1000))
+        products.append(Product(productImageName: "iphone11", productTitle: "Iphone 11", productPrice: 7000))
+        products.append(Product(productImageName: "macbookPro", productTitle: "Macbook Pro", productPrice: 14000))
+        products.append(Product(productImageName: "airpods", productTitle: "Airpods", productPrice: 800))
+        products.append(Product(productImageName: "airpods-max", productTitle: "Airpods - Max", productPrice: 1000))
         
     }
 }
+
 
 extension ViewController : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -88,7 +96,7 @@ extension ViewController : UICollectionViewDataSource, UICollectionViewDelegateF
 extension ViewController : ProductCellProtocol {
     func onClick(product: Product) {
         //print("Product name : \(product.productTitle!) | prodduct price : \(product.productPrice!)")
-        let vc = BottomSheetVC()
+        let vc = ProductVC(data: product)
         vc.modalPresentationStyle = .overCurrentContext
         self.present(vc, animated: false)
     }
